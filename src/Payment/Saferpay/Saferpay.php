@@ -12,6 +12,8 @@ use Payment\Saferpay\Data\PayConfirmParameter;
 use Payment\Saferpay\Data\PayInitParameterWithDataInterface;
 use Payment\Saferpay\Data\AuthorizationParameterWithDataInterface;
 use Payment\Saferpay\Data\RecordLinkInitParameterWithDataInterface;
+use Payment\Saferpay\Data\PayConfirmParameter;
+use Payment\Saferpay\Data\PayInitParameterWithDataInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -294,7 +296,7 @@ class Saferpay
             array('Content-Type' => 'application/x-www-form-urlencoded')
         );
 
-        if ($response->getStatusCode() != 200) { ds( $url);
+        if ($response->getStatusCode() != 200) {
             $this->getLogger()->critical('Saferpay: request failed with statuscode: {statuscode}!', array('statuscode' => $response->getStatusCode()));
             throw new \Exception('Saferpay: request failed with statuscode: ' . $response->getStatusCode() . '!');
         }
