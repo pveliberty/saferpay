@@ -12,8 +12,6 @@ use Payment\Saferpay\Data\PayConfirmParameter;
 use Payment\Saferpay\Data\PayInitParameterWithDataInterface;
 use Payment\Saferpay\Data\AuthorizationParameterWithDataInterface;
 use Payment\Saferpay\Data\RecordLinkInitParameterWithDataInterface;
-use Payment\Saferpay\Data\PayConfirmParameter;
-use Payment\Saferpay\Data\PayInitParameterWithDataInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -67,19 +65,15 @@ class Saferpay
     /**
      * @return string
      */
-    protected function getErrorRegistration($coderesult)
+    public function getErrorAuthenticationConfirm($coderesult)
     {
         switch($coderesult){
-            case 0 : $response = htmlspecialchars('Enregistrement réussi.');break;
-            case 7000 : $response = htmlspecialchars('Erreur générale (voir DESCRIPTION).');break;
-            case 7001 : $response = htmlspecialchars('Demande n’a pas pu être entièrement traitée.');break;
-            case 7002 : $response = htmlspecialchars('Type de carte non disponible sur le terminal.');break;
-            case 7003 : $response = htmlspecialchars('Contenu ou format invalide du paramètre.');break;
-            case 7004 : $response = htmlspecialchars('CARDREFID introuvable (uniquement lors de l’autorisation).');break;
-            case 7005 : $response = htmlspecialchars('Paramètre manquant dans la demande.');break;
-            case 7006 : $response = htmlspecialchars('CARDREFID déjà existant.');break;
-            case 7007 : $response = htmlspecialchars('Aucune autorisation existante pour le SCD.');break;
-            default : $response = htmlspecialchars('Error non gerer');break;
+            case 0 : $response = htmlentities('Demande exécutée avec succès');break;
+            case 311 : $response = htmlentities('L’authentification a échoué à cause d’un problème technique 
+                                                sur le serveur ACS. La poursuite éventuelle 
+                                                de la demande d’autorisation est à faire dépendre de la 
+                                                valeur ECI');break;
+            default : $response = htmlentities('Error non gerer');break;
         }
 
         return $response;
@@ -87,27 +81,47 @@ class Saferpay
     /**
      * @return string
      */
-    protected function getErrorAuthorization($coderesult)
+    public function getErrorRegistration($coderesult)
     {
         switch($coderesult){
-            case 0 : $response = htmlspecialchars('Authorization réussi.');break;
-            case 61 : $response = htmlspecialchars('La validation de la carte a échoué.');break;
-            case 62 : $response = htmlspecialchars('La date d’expiration n’est pas plausible.');break;
-            case 63 : $response = htmlspecialchars('La carte a expiré, elle n’est plus valable.');break;
-            case 64 : $response = htmlspecialchars('La carte est inconnue, elle n’a pas pu être rattachée à un type de carte.');break;
-            case 65 : $response = htmlspecialchars('L’acquirer de la carte a refusé la transaction. Le declined champ AUTHRESULT contient la raison du refus de la part de l’acquirer.');break;
-            case 67 : $response = htmlspecialchars('Le terminal ne dispose pas du contrat d’acceptation available pour le type de carte ou pour la devise demandée.');break;
-            case 70 : $response = htmlspecialchars('Le pays d’origine de l’IP de la demande n’est pas débloqué dans le Saferpay Risk Management.');break;
-            case 83 : $response = htmlspecialchars('Le code de la devise n’est pas valable.');break;
-            case 84 : $response = htmlspecialchars('Le montant n’est pas valable.');break;
-            case 85 : $response = htmlspecialchars('L’abonnement de transaction est épuisé.');break;
-            case 102 : $response = htmlspecialchars('L’acquirer ne prend pas en charge cette fonction.');break;
-            case 104 : $response = htmlspecialchars('La carte a été bloquée par le Saferpay Risk Management.');break;
-            case 105 : $response = htmlspecialchars('Le pays d’origine de la carte n’est pas débloqué dans le Saferpay Risk Management.');break;
-            case 113 : $response = htmlspecialchars('Le numéro de vérification de la carte contient une valeur non valable.');break;
-            case 114 : $response = htmlspecialchars('La saisie du numéro de vérification de la carte est absolument nécessaire.');break;
-            case 8100 : $response = htmlspecialchars('Le MPI_SESSIONID est inconnu.');break;
-            default : $response = htmlspecialchars('Error non gerer');break;
+            case 0 : $response = htmlentities('Enregistrement réussi.');break;
+            case 7000 : $response = htmlentities('Erreur générale (voir DESCRIPTION).');break;
+            case 7001 : $response = htmlentities('Demande n’a pas pu être entièrement traitée.');break;
+            case 7002 : $response = htmlentities('Type de carte non disponible sur le terminal.');break;
+            case 7003 : $response = htmlentities('Contenu ou format invalide du paramètre.');break;
+            case 7004 : $response = htmlentities('CARDREFID introuvable (uniquement lors de l’autorisation).');break;
+            case 7005 : $response = htmlentities('Paramètre manquant dans la demande.');break;
+            case 7006 : $response = ('CARDREFID déjà existant.');break;
+            case 7007 : $response = htmlentities('Aucune autorisation existante pour le SCD.');break;
+            default : $response = htmlentities('Error non gerer');break;
+        }
+
+        return $response;
+    }
+    /**
+     * @return string
+     */
+    public function getErrorAuthorization($coderesult)
+    {
+        switch($coderesult){
+            case 0 : $response = htmlentities('Authorization réussi.');break;
+            case 61 : $response = htmlentities('La validation de la carte a échoué.');break;
+            case 62 : $response = htmlentities('La date d’expiration n’est pas plausible.');break;
+            case 63 : $response = htmlentities('La carte a expiré, elle n’est plus valable.');break;
+            case 64 : $response = htmlentities('La carte est inconnue, elle n’a pas pu être rattachée à un type de carte.');break;
+            case 65 : $response = htmlentities('L’acquirer de la carte a refusé la transaction. Le declined champ AUTHRESULT contient la raison du refus de la part de l’acquirer.');break;
+            case 67 : $response = htmlentities('Le terminal ne dispose pas du contrat d’acceptation available pour le type de carte ou pour la devise demandée.');break;
+            case 70 : $response = htmlentities('Le pays d’origine de l’IP de la demande n’est pas débloqué dans le Saferpay Risk Management.');break;
+            case 83 : $response = htmlentities('Le code de la devise n’est pas valable.');break;
+            case 84 : $response = htmlentities('Le montant n’est pas valable.');break;
+            case 85 : $response = htmlentities('L’abonnement de transaction est épuisé.');break;
+            case 102 : $response = htmlentities('L’acquirer ne prend pas en charge cette fonction.');break;
+            case 104 : $response = htmlentities('La carte a été bloquée par le Saferpay Risk Management.');break;
+            case 105 : $response = htmlentities('Le pays d’origine de la carte n’est pas débloqué dans le Saferpay Risk Management.');break;
+            case 113 : $response = htmlentities('Le numéro de vérification de la carte contient une valeur non valable.');break;
+            case 114 : $response = htmlentities('La saisie du numéro de vérification de la carte est absolument nécessaire.');break;
+            case 8100 : $response = htmlentities('Le MPI_SESSIONID est inconnu.');break;
+            default : $response = htmlentities('Error non gerer');break;
         }
         return $response;
     }
@@ -129,7 +143,7 @@ class Saferpay
      * @return string
      */
     public function createPayInit(PayInitParameterWithDataInterface $payInitParameter)
-    {//ds($payInitParameter->getData());
+    {
         return $this->request($payInitParameter->getRequestUrl(), $payInitParameter->getData());
     }   
 
@@ -152,6 +166,7 @@ class Saferpay
 
         $data = array_merge($authorizationParameter->getData(), $authorizationParameter->getInvalidData()); 
         $response = $this->request($authorizationParameter->getRequestUrl(), $data);
+
         $authorizationResponse = new AuthorizationResponse();
         $this->fillDataFromXML($authorizationResponse, substr($response, 3));
 
@@ -165,7 +180,9 @@ class Saferpay
      */
     public function cardRecording($url, array $data)
     {
-         return $this->request($url, $data);
+        $retour =  $this->request($url, $data);
+
+         return $retour;
     }
 
     /**
@@ -238,9 +255,9 @@ class Saferpay
         $payCompleteParameter->setAction($action);
        
         $data = array_merge($payCompleteParameter->getData(), array('spPassword' => 'XAjc3Kna'));
-//ds($data);
+ 
         $response = $this->request($payCompleteParameter->getRequestUrl(), $data);
-//ds($response);
+ 
         $payCompleteResponse = new PayCompleteResponse();
         $this->fillDataFromXML($payCompleteResponse, substr($response, 3));
 
@@ -296,15 +313,15 @@ class Saferpay
             array('Content-Type' => 'application/x-www-form-urlencoded')
         );
 
-        if ($response->getStatusCode() != 200) {
-            $this->getLogger()->critical('Saferpay: request failed with statuscode: {statuscode}!', array('statuscode' => $response->getStatusCode()));
-            throw new \Exception('Saferpay: request failed with statuscode: ' . $response->getStatusCode() . '!');
+       /*if ($response->getStatusCode() != 200) {
+           // $this->getLogger()->critical('Saferpay: request failed with statuscode: {statuscode}!', array('statuscode' => $response->getStatusCode()));
+            //throw new \Exception('Saferpay: request failed with statuscode: ' . $response->getStatusCode() . '!');
         }
 
         if (strpos($response->getContent(), 'ERROR') !== false) {
             $this->getLogger()->critical('Saferpay: request failed: {content}!', array('content' => $response->getContent()));
             throw new \Exception('Saferpay: request failed: ' . $response->getContent() . '!');
-        }
+        }*/
 
         return $response->getContent();
     }
