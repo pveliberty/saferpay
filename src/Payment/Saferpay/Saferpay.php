@@ -364,10 +364,10 @@ class Saferpay
             array('Content-Type' => 'application/x-www-form-urlencoded')
         );
 
-       if ($response->getStatusCode() != 200) {
+        /*if ($response->getStatusCode() != 200) {
             $this->getLogger()->critical('Saferpay: request failed with statuscode: {statuscode}!', array('statuscode' => $response->getStatusCode()));
             throw new \Exception('Saferpay: request failed with statuscode: ' . $response->getStatusCode() . '!');
-        }
+        }*/
 
         if (strpos($response->getContent(), 'ERROR') !== false) {
             $this->getLogger()->critical('Saferpay: request failed: {content}!', array('content' => $response->getContent()));
