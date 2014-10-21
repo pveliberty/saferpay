@@ -277,6 +277,9 @@ class Saferpay
     {
         $RegistrationConfirmParameter = new RegistrationResponse();
         $this->fillDataFromXML($RegistrationConfirmParameter, $xml);
+
+        //$newRequest->setHeader('Authorization', 'Bearer ' . $newAccessToken['access_token']);
+
         $this->request($RegistrationConfirmParameter->getRequestUrl(), array(
             'DATA' => $xml,
             'SIGNATURE' => $signature

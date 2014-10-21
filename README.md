@@ -9,7 +9,7 @@
 ##### uses (with buzz client)
 
 ```php
-use Payment\HttpClient\BuzzClient;
+use Payment\HttpClient\GuzzleClient;
 use Payment\Saferpay\Data\PayCompleteParameter;
 use Payment\Saferpay\Data\PayCompleteResponse;
 use Payment\Saferpay\Data\PayConfirmParameter;
@@ -25,7 +25,7 @@ $saferpay = new Saferpay;
 ##### set httpclient (with buzz)
 
 ```php
-$saferpay->setHttpClient(new BuzzClient());
+$saferpay->setHttpClient(new GuzzleClient());
 ```
 
 ##### the logic

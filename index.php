@@ -4,13 +4,13 @@ namespace Payment\Saferpay;
 
 require 'vendor/autoload.php';
 
-use Payment\HttpClient\BuzzClient;
+use Payment\HttpClient\GuzzleClient;
 use Payment\Saferpay\Data\PayCompleteResponse;
 use Payment\Saferpay\Data\PayConfirmParameter;
 use Payment\Saferpay\Data\PayInitParameter;
 
 $saferpay = new Saferpay;
-$saferpay->setHttpClient(new BuzzClient());
+$saferpay->setHttpClient(new GuzzleClient());
 
 $amount = 1200;
 $currency = 'CHF';
