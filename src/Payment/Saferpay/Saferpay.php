@@ -233,6 +233,7 @@ class Saferpay
      */
     public function cardRecording($url, array $data)
     {
+
         $retour =  $this->request($url, $data);
 
          return $retour;
@@ -359,20 +360,17 @@ class Saferpay
      */
     protected function request($url, array $data)
     {
+         $this->getHttpClient()->getClient()->setSslVerification(false);
+         $response = $this->getHttpClient()->request(
+                'POST',
+                $url,
+                http_build_query($data),
+                array('Content-Type' => 'application/x-www-form-urlencoded')
+            );
 
-        $response = $this->getHttpClient()->request(
-            'POST',
-            $url,
-            http_build_query($data),
-            array('Content-Type' => 'application/x-www-form-urlencoded')
-        );
-
-        /*if ($response->getStatusCode() != 200) {
-            $this->getLogger()->critical('Saferpay: request failed with statuscode: {statuscode}!', array('statuscode' => $response->getStatusCode()));
-            throw new \Exception('Saferpay: request failed with statuscode: ' . $response->getStatusCode() . '!');
-        }*/
 
         if (strpos($response->getContent(), 'ERROR') !== false) {
+
             $this->getLogger()->critical('Saferpay: request failed: {content}!', array('content' => $response->getContent()));
             throw new \Exception('Saferpay: request failed: ' . $response->getContent() . '!');
         }
